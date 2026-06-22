@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>再次翻阅 · 世界杯记录页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #f5f0ea;
+            font-family: 'Georgia', 'Times New Roman', '宋体', serif;
+            color: #2b2622;
+            line-height: 1.7;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .page-wrap {
+            max-width: 840px;
+            width: 100%;
+            background: #fcf9f5;
+            padding: 3.2rem 2.6rem;
+            border-radius: 28px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03), 0 2px 8px rgba(80,60,30,0.05);
+            transition: padding 0.2s;
+        }
+        /* 开场短句 —— 像书眉 */
+        .opening-line {
+            font-size: 1.25rem;
+            letter-spacing: 0.02em;
+            color: #7f6b5a;
+            border-left: 5px solid #c5af9a;
+            padding-left: 1.2rem;
+            margin-bottom: 2.5rem;
+            font-style: italic;
+        }
+        .opening-line::before {
+            content: "⟡ ";
+            color: #b7a08b;
+        }
+        h1 {
+            font-weight: 500;
+            font-size: 2.2rem;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.25rem;
+            color: #3a2f28;
+            line-height: 1.2;
+        }
+        .subhead {
+            font-size: 1rem;
+            color: #8b7a6b;
+            border-bottom: 1px dashed #d9cdc1;
+            padding-bottom: 0.8rem;
+            margin-bottom: 2rem;
+        }
+        .intro-text {
+            margin-bottom: 1.8rem;
+        }
+        .intro-text p {
+            margin-bottom: 1.2rem;
+            text-indent: 2em;
+        }
+        .intro-text p:first-of-type {
+            text-indent: 0;
+        }
+        /* 特点列表 —— 用圆角卡片呈现，温和 */
+        .feature-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin: 2.2rem 0 2.5rem;
+        }
+        .feature-item {
+            flex: 1 1 190px;
+            background: #f3eee9;
+            border-radius: 24px;
+            padding: 1.6rem 1.2rem 1.4rem;
+            box-shadow: inset 0 1px 2px rgba(255,255,250,0.7), 0 3px 8px rgba(80,60,40,0.04);
+            transition: background 0.15s;
+        }
+        .feature-item:hover {
+            background: #ede5dd;
+        }
+        .feature-item .emoji-marker {
+            font-size: 1.3rem;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        .feature-item h3 {
+            font-weight: 500;
+            font-size: 1.1rem;
+            letter-spacing: 0.01em;
+            margin-bottom: 0.4rem;
+            color: #3f332c;
+            display: inline;
+        }
+        .feature-item p {
+            font-size: 0.95rem;
+            color: #4b3e35;
+            margin-top: 0.4rem;
+            line-height: 1.6;
+        }
+        /* 引用块 / 提示框 */
+        .notice-box {
+            background: #f1ebe5;
+            border-left: 10px solid #bfaa98;
+            border-radius: 0 16px 16px 0;
+            padding: 1.3rem 1.6rem;
+            margin: 2.2rem 0 1.8rem;
+            font-size: 0.98rem;
+            color: #372f29;
+        }
+        .notice-box strong {
+            font-weight: 600;
+            color: #2f241e;
+        }
+        .notice-box a {
+            color: #6a4f3c;
+            text-decoration: underline wavy rgba(100,70,50,0.2);
+            text-underline-offset: 3px;
+            transition: color 0.2s;
+        }
+        .notice-box a:hover {
+            color: #3b2b20;
+            text-decoration-color: #9b7d66;
+        }
+        /* 温和结尾 + 收藏提示 */
+        .gentle-closing {
+            margin: 2.8rem 0 1.2rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid #e4d9cf;
+        }
+        .gentle-closing p {
+            margin-bottom: 0.8rem;
+            font-size: 0.98rem;
+        }
+        .bookmark-tip {
+            background: #faf5ef;
+            display: inline-block;
+            padding: 0.3rem 1rem 0.3rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.92rem;
+            border: 1px solid #dacfc4;
+            color: #4b3e33;
+            margin-top: 0.4rem;
+        }
+        .bookmark-tip span {
+            margin-right: 8px;
+        }
+        .faq-mini {
+            margin: 2rem 0 0.5rem;
+        }
+        .faq-mini details {
+            margin-bottom: 0.7rem;
+            border-bottom: 1px dashed #ddd3c7;
+            padding-bottom: 0.8rem;
+        }
+        .faq-mini summary {
+            cursor: pointer;
+            font-weight: 500;
+            color: #4a3d33;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+        .faq-mini summary::before {
+            content: "▸ ";
+            color: #b29a86;
+            font-size: 0.9rem;
+            margin-right: 6px;
+        }
+        .faq-mini details[open] summary::before {
+            content: "▾ ";
+        }
+        .faq-mini summary::-webkit-details-marker {
+            display: none;
+        }
+        .faq-mini .faq-answer {
+            padding: 0.7rem 0 0.2rem 1.4rem;
+            color: #4d4138;
+            font-size: 0.95rem;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #e6dbd0;
+            margin: 2rem 0 1rem;
+        }
+        .footer-note {
+            font-size: 0.85rem;
+            color: #887a6e;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem 0.8rem;
+            }
+            .page-wrap {
+                padding: 1.8rem 1.3rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .feature-grid {
+                flex-direction: column;
+            }
+            .feature-item {
+                flex: 1 1 auto;
+            }
+            .opening-line {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrap">
+
+    <!-- 开场短句 -->
+    <div class="opening-line">再次打开这个页面，像翻开一本旧册子。</div>
+
+    <h1>关于世界杯 · 一份安静的索引</h1>
+    <div class="subhead">无论何时回来，都能找到熟悉的起点</div>
+
+    <div class="intro-text">
+        <p>如果你曾收藏过这个站点，或者因为某次赛程、某支队伍而记下地址，那么你再次来到这里时，它应该还是原来的样子——简洁、直接，没有冗余的弹窗，没有喧哗的横幅。页面背后，是持续整理的信息骨架。</p>
+        <p>这里不是新闻推送站，而是一处可以随时翻阅的<strong>赛事记录与知识集合</strong>。从历史夺冠脉络到经典对决数据，从主办国轮转到赛场内外的重要细节，内容经过筛选与编排，适合静下心来看几段。</p>
+        <p>我们相信，真正的关注不需要被催促。当你需要了解关于<a href="https://chn-main-shijiebei.com">世界杯</a>的某项信息、某届回顾或某个冷门知识点，这个站点值得被再次打开。以下罗列几个值得留意的特点——</p>
+    </div>
+
+    <!-- 特点列表 -->
+    <div class="feature-grid">
+        <div class="feature-item">
+            <span class="emoji-marker">📆</span><h3>时序清晰</h3>
+            <p>按届次与年份排列，每届世界杯都有独立的章节，方便回溯与比较。</p>
+        </div>
+        <div class="feature-item">
+            <span class="emoji-marker">🏆</span><h3>冠军记录</h3>
+            <p>从1930到2026，冠亚军、比分、主办国、最佳射手，一页即可概览。</p>
+        </div>
+        <div class="feature-item">
+            <span class="emoji-marker">🌍</span><h3>地域视角</h3>
+            <p>各大洲轮换、申办故事、承办城市介绍，不止于球场之内。</p>
+        </div>
+        <div class="feature-item">
+            <span class="emoji-marker">🔍</span><h3>快速查找</h3>
+            <p>页面内自带锚点与关键词索引，不必反复翻找。</p>
+        </div>
+    </div>
+
+    <!-- 提示框 / 引用块 -->
+    <div class="notice-box">
+        <strong>💡 收藏提示</strong><br>
+        如果你觉得这个页面日后用得上，可以把它加入浏览器书签。站点没有推送通知，也没有强迫注册的入口——只有你自己决定什么时候再来。下一次，或许是为了查询某届经典比赛的数据，或许只是想安静地浏览<a href="https://chn-main-shijiebei.com">世界杯</a>的历史脉络。
+    </div>
+
+    <!-- FAQ 摘要 -->
+    <div class="faq-mini">
+        <details>
+            <summary>这个页面内容多久更新一次？</summary>
+            <div class="faq-answer">通常在每届世界杯预选赛阶段、决赛圈前后以及揭晓新主办国时会有内容增补。历届基础数据始终保持稳定，不会无意义地频繁修改。</div>
+        </details>
+        <details>
+            <summary>为什么没有实时比分或新闻流？</summary>
+            <div class="faq-answer">这是一个偏向“档案与介绍”型的页面，侧重完整性与条理性。实时信息请关注官方渠道或赛事直播。这里的价值在于结构化的知识沉淀。</div>
+        </details>
+        <details>
+            <summary>我如何确认信息的准确性？</summary>
+            <div class="faq-answer">所有赛事数据均参照国际足联官方记录及主流权威体育媒体。如果发现疑点，欢迎通过页面底部的联系渠道反馈。</div>
+        </details>
+    </div>
+
+    <!-- 温和结尾 -->
+    <div class="gentle-closing">
+        <p>把地址留在书签栏，就是一次安静的约定。下次想回顾某届世界杯的赛程细节、参赛队伍或标志性瞬间，不用重新搜索，直接点开就好。</p>
+        <p>希望这里能成为你持续关注<a href="https://chn-main-shijiebei.com">世界杯</a>的稳定参照。</p>
+        <div class="bookmark-tip">
+            <span>🔖</span> 按 Ctrl+D / ⌘+D 收藏，或者拖到书签栏
+        </div>
+    </div>
+
+    <hr>
+    <div class="footer-note">
+        页面内容整理自公开资料 · 仅供信息参考
+    </div>
+</div>
+</body>
+</html>
